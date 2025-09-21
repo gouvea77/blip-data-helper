@@ -1,15 +1,15 @@
 // ==UserScript==
 // @name         Blip Data Helper
 // @namespace    http://gouvea77.com
-// @version      1.3
+// @version      1.4
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
 // @downloadURL  https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
-
 // ==/UserScript==
+
 
 (function () {
   "use strict";
@@ -314,6 +314,7 @@
     });
   }
 })();
+
 
 
 
