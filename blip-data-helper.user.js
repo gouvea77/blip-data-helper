@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip Data Helper
 // @namespace    http://gouvea77.com
-// @version      1.1
+// @version      1.2
 // @description  Script para auxiliar no Blip
 // @author       Gabriel
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -314,6 +314,7 @@
     });
   }
 })();
+
 
 
 
