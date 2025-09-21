@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      1.7
+// @version      1.8
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -155,6 +155,8 @@
       overflow: hidden;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       font-family: Arial, sans-serif;
+      position: relative; /* garante stacking context principal */
+      z-index: 0;
     }
 
     .linha {
@@ -162,7 +164,7 @@
       grid-template-columns: 1fr 2fr 2fr;
       border-bottom: 1px solid #ddd;
       position: relative;
-      z-index: 3;
+      z-index: 2; 
     }
 
     .cabecalho {
@@ -171,7 +173,7 @@
       font-weight: bold;
       position: sticky;
       top: 0;
-      z-index: 2;
+      z-index: 1
     }
 
     .col {
@@ -208,7 +210,7 @@
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.2s;
-  z-index: 1000; /* bem alto dentro do mesmo stacking context */
+  z-index: 3;
 }
 
 
@@ -301,6 +303,7 @@
     });
   }
 })();
+
 
 
 
