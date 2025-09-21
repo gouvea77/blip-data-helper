@@ -13,7 +13,7 @@
 
 (function () {
   "use strict";
-  alert("estou sendo atualizado automaticamente)
+  alert("estou sendo atualizado automaticamente, testado e revisado")
   let atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
 
   function limparLocalStorage() {
@@ -314,6 +314,7 @@
     });
   }
 })();
+
 
 
 
