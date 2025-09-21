@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip Data Helper
 // @namespace    http://gouvea77.com
-// @version      1.0
+// @version      1.1
 // @description  Script para auxiliar no Blip
 // @author       Gabriel
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -12,7 +12,7 @@
 
 (function () {
   "use strict";
-
+  alert("estou sendo atualizado automaticamente)
   let atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
 
   function limparLocalStorage() {
@@ -313,6 +313,7 @@
     });
   }
 })();
+
 
 
 
