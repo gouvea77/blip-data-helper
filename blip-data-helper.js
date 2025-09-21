@@ -4,7 +4,7 @@
 // @version      1.0
 // @description  Script para auxiliar no Blip
 // @author       Gabriel
-// @match        https://*
+// @match        https://medgrupocentral.desk.blip.ai/*
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
 // @downloadURL  https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
