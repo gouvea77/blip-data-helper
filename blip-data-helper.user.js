@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      1.6
+// @version      1.7
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -13,7 +13,7 @@
 
 (function () {
   "use strict";
-  alert("estou sendo atualizado automaticamente, testado e revisado")
+
   let atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
 
   function limparLocalStorage() {
@@ -41,7 +41,9 @@
       mudanca.addedNodes.forEach((node) => {
         if (node.innerText && node.innerText.includes("Ticket")) {
           let textoAtendimentos = document.querySelector(".header-content");
-          let idTicket = document.querySelector("#idTicket").innerText;
+          let idTicket = document.querySelector(
+            "#ticket-sequential-id"
+          ).innerText;
           addAlunos(dia, mes);
           if (
             idTicket != "" &&
@@ -139,8 +141,6 @@
     atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
     textoAtendimentos.innerText =
       "Atendimentos Hoje: " + atendimentosDia.length;
-    textoAtendimentos.innerText =
-      "Atendimentos Hoje: " + atendimentosDia.length;
 
     let tabela = "";
 
@@ -149,77 +149,68 @@
     } else {
       tabela = `
     <style>
-      .divTeste {
-  width: 100%;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 15px;
-  margin: 0 auto;
-  max-height: 240px;
-  overflow-y: scroll;
-}
+ .tabela {
+      width: 350px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      font-family: Arial, sans-serif;
+    }
 
-.divTeste table {
-  width: 65%;
-  border-collapse: collapse;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  margin: 0 auto;
-}
+    .linha {
+      display: grid;
+      grid-template-columns: 1fr 2fr 2fr;
+      border-bottom: 1px solid #ddd;
+      position: relative;
+      z-index: 3;
+    }
 
-.divTeste thead {
-  background-color: #1A5ED4;
-  color: #fff;
-  text-align: left;
-}
+    .cabecalho {
+      background: #1976d2;
+      color: white;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
 
-.divTeste th,
-.divTeste td {
-  padding: 14px 18px;
-}
+    .col {
+      padding: 8px 12px;
+      text-align: center;
+    }
 
-.divTeste tbody tr {
-  border-bottom: 1px solid #e5e7eb;
-  transition: background 0.2s ease;
-  background-color: #f9fafb;
-}
+    .corpo {
+      max-height: 120px;
+      /* altura da área rolável */
+      overflow-y: auto;
+      background: white;
+    }
 
-.divTeste tbody tr:hover {
-  background-color: #e0f2fe;
-}
+    .linha:nth-child(even) {
+      background: #f9f9f9;
+    }
 
-.divTeste th {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  font-size: 16px;
-}
-
-.divTeste td {
-  color: #374151;
-  position: relative;
-  font-size: 13px;
-}
-
-.divTeste td:first-child {
-  padding-right: 2px;
+.linha {
+  position: relative; /* cria referência */
+  z-index: 1;
 }
 
 .copiar {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #1A5ED4;
-  opacity: 0;
-  cursor: pointer;
+  color: white;
   padding: 5px;
   border-radius: 4px;
   font-size: 10px;
-  color: white;
-  z-index: 10;
-  position: absolute;
-  right: 8px;
-  bottom: 79%;
-  pointer-events: auto;
+  cursor: pointer;
+  opacity: 0;
   transition: opacity 0.2s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15); /* sombra discreta */
+  z-index: 1000; /* bem alto dentro do mesmo stacking context */
 }
+
 
 .selecionar{
     background-color: white;
@@ -248,33 +239,31 @@
 }
 
     </style>
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>Telefone</th>
-        </tr>
-      </thead>
-      <tbody>
+    <div class="tabela">
+  <!-- Cabeçalho -->
+  <div class="linha cabecalho">
+    <div class="col">ID</div>
+    <div class="col">Nome</div>
+    <div class="col">Telefone</div>
+  </div>
+
+      <div class="corpo">
         ${alunosFiltrados
           .map(
             (aluno) => `
-          <tr>
-            <td>
-               <div class="selecionar">
-                 <div class="selecionado">
-                </div>
-                </div>
-              ${aluno.id}
-            </td>
-            <td>${aluno.nome}</td>
-            <td>${aluno.telefone}<div class="copiar">COPIAR</></td>
-          </tr>
+      <div class="linha">
+        <div class="col">${aluno.id}</div>
+        <div class="col">${aluno.nome}</div>
+        <div class="col">${aluno.telefone}<div class="copiar">COPIAR
+          </div>
+        </div>
+      </div>
+
         `
           )
           .join("")}
-      </tbody>
+      </div>
+      </div>
   `;
     }
 
@@ -287,11 +276,12 @@
     let copyBtn = document.querySelectorAll(".copiar");
 
     copyBtn.forEach((copiar) => {
-      let td = copiar.closest("tr");
-      td.addEventListener("mouseenter", () => {
+      let linha = copiar.closest(".linha"); // ✅ linha correta do botão
+
+      linha.addEventListener("mouseenter", () => {
         copiar.style.opacity = "1";
       });
-      td.addEventListener("mouseleave", () => (copiar.style.opacity = "0"));
+      linha.addEventListener("mouseleave", () => (copiar.style.opacity = "0"));
 
       copiar.addEventListener(
         "mouseenter",
@@ -301,19 +291,17 @@
         "mouseleave",
         () => (copiar.style.color = "white")
       );
+
       copiar.addEventListener("click", (e) => {
-        // copia a linha toda da tabela
-        let linha = e.target.closest("tr");
         e.target.innerText = "COPIADO!";
-        function changeInnerText() {
-          e.target.innerText = "COPIAR";
-        }
-        setTimeout(changeInnerText, 1000);
+        setTimeout(() => (e.target.innerText = "COPIAR"), 1000);
+
         navigator.clipboard.writeText(linha.innerText.replace("COPIADO!", ""));
       });
     });
   }
 })();
+
 
 
 
