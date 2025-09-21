@@ -6,8 +6,8 @@
 // @author       Gabriel
 // @match        https://medgrupocentral.desk.blip.ai/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
-// @downloadURL  https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.user.js
+// @updateURL    https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.js
+// @downloadURL  https://raw.githubusercontent.com/gouvea77/blip-data-helper/main/blip-data-helper.js
 // ==/UserScript==
 
 (function () {
@@ -313,5 +313,6 @@
     });
   }
 })();
+
 
 
