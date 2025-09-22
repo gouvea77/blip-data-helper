@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      2.0
+// @version      2.1
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -14,7 +14,7 @@
 (function () {
   "use strict";
 
-  let atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
+  let atendimentos = JSON.parse(localStorage.getItem("atendimentos")) || [];
 
   function getData(){
     const agora = new Date()
@@ -34,6 +34,13 @@
 
     alunos = alunosDia;
     localStorage.setItem("alunos", JSON.stringify(alunos));
+
+    const atendimentosDia = atendimentos.filter((atendimento)=>{
+      return atendimento.data === hoje.dia + "/" + hoje.mes + "/" + hoje.ano;
+    })
+
+    atendimentos = atendimentosDia;
+    localStorage.setItem("atendimentos", JSON.stringify(atendimentos));
   }
 
   limparLocalStorage();
@@ -52,17 +59,19 @@
           addAlunos(hoje.dia, hoje.mes, hoje.ano);
           if (
             idTicket != "" &&
-            !atendimentosDia.some(
+            !atendimentos.some(
               (atendimento) => atendimento.idTicket === idTicket
             )
           ) {
-            atendimentosDia.push({
+            atendimentos.push({
               idTicket,
               data: hoje.dia + "/" + hoje.mes + "/" + hoje.ano,
             });
+             textoAtendimentos.innerText =
+      "Atendimentos Hoje: " + atendimentos.length;
             localStorage.setItem(
               "atendimentos",
-              JSON.stringify(atendimentosDia)
+              JSON.stringify(atendimentos)
             );
           }
         }
@@ -139,9 +148,9 @@
 
     let novaDiv = document.createElement("div");
     novaDiv.className = "divTeste";
-    atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
+    atendimentos = JSON.parse(localStorage.getItem("atendimentos")) || [];
     textoAtendimentos.innerText =
-      "Atendimentos Hoje: " + atendimentosDia.length;
+      "Atendimentos Hoje: " + atendimentos.length;
 
     let tabela = "";
 
@@ -304,6 +313,5 @@
     });
   }
 })();
-
 
 
