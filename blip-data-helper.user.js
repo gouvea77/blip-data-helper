@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      1.8
+// @version      1.9
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -16,13 +16,20 @@
 
   let atendimentosDia = JSON.parse(localStorage.getItem("atendimentos")) || [];
 
+  function getData(){
+    const agora = new Date()
+    const dia = agora.getDate()
+    const mes = agora.getMonth() + 1
+    const ano = agora.getFullYear()
+    return {dia, mes, ano}
+  }
+
+
   function limparLocalStorage() {
     let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
-    let dataHoje = new Date();
-    let dia = dataHoje.getDate();
-    let mes = dataHoje.getMonth() + 1;
+    const hoje = getData()
     const alunosDia = alunos.filter((aluno) => {
-      return aluno.data === dia + "/" + mes;
+      return aluno.data === hoje.dia + "/" + hoje.mes + "/" + hoje.ano;
     });
 
     alunos = alunosDia;
@@ -33,9 +40,7 @@
 
   const observer = new MutationObserver((mudancas, obs) => {
     const divAlunos = document.querySelector(".divTeste");
-    let dataHoje = new Date();
-    let dia = dataHoje.getDate();
-    let mes = dataHoje.getMonth() + 1;
+    const hoje = getData()
 
     mudancas.forEach((mudanca) => {
       mudanca.addedNodes.forEach((node) => {
@@ -44,7 +49,7 @@
           let idTicket = document.querySelector(
             "#ticket-sequential-id"
           ).innerText;
-          addAlunos(dia, mes);
+          addAlunos(hoje.dia, hoje.mes, hoje.ano);
           if (
             idTicket != "" &&
             !atendimentosDia.some(
@@ -53,7 +58,7 @@
           ) {
             atendimentosDia.push({
               idTicket,
-              data: dia + "/" + mes,
+              data: hoje.dia + "/" + hoje.mes + "/" + hoje.ano,
             });
             localStorage.setItem(
               "atendimentos",
@@ -64,7 +69,7 @@
       });
     });
     if (!divAlunos) {
-      criarDiv();
+      criarDiv(hoje.dia, hoje.mes, hoje.ano);
     }
   });
 
@@ -72,7 +77,7 @@
 
   let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
 
-  function addAlunos(dia, mes) {
+  function addAlunos(dia, mes, ano) {
     alunos = JSON.parse(localStorage.getItem("alunos")) || [];
     const nomeAluno = document
       .querySelectorAll(".profile-info-item")[0]
@@ -102,33 +107,29 @@
     if (
       !alunos.some(
         (aluno) =>
-          aluno.telefone === telefoneAluno && aluno.data === dia + "/" + mes
+          aluno.telefone === telefoneAluno && aluno.data === dia + "/" + mes + "/" + ano
       )
     ) {
       alunos.push({
         nome: nomeAluno,
         cpf: cpfAluno,
         id: idAluno,
-        data: dia + "/" + mes,
+        data: dia + "/" + mes + "/" + ano,
         telefone: telefoneAluno,
       });
       localStorage.setItem("alunos", JSON.stringify(alunos));
     }
     console.log("local storage definido");
-    criarDiv();
+    criarDiv(dia, mes, ano);
   }
 
-  function criarDiv() {
+  function criarDiv(dia, mes, ano) {
     let textoAtendimentos = document.querySelector(".header-content");
-
-    let dataHoje = new Date();
-    let diaHoje = dataHoje.getDate();
-    let mesHoje = dataHoje.getMonth() + 1;
 
     const alunosArray = JSON.parse(localStorage.getItem("alunos")) || [];
     const alunosFiltrados =
-      diaHoje && mesHoje
-        ? alunosArray.filter((aluno) => aluno.data === diaHoje + "/" + mesHoje)
+      dia && mes
+        ? alunosArray.filter((aluno) => aluno.data === dia + "/" + mes + "/" + ano)
         : alunosArray;
     let divBlip = document.querySelector(".header-chat-list");
     if (!divBlip) return;
@@ -303,16 +304,3 @@
     });
   }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
