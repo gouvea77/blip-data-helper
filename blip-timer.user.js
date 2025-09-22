@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Blip - Cria Tabela de Atendimentos
+// @name         Blip - Adiciona Timer
 // @namespace    http://gouvea77.com
 // @version      1.0
-// @description  Script para auxiliar no Blip
+// @description  Script para auxiliar no Blip adicionando um timer
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
 // @grant        none
