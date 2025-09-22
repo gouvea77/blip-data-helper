@@ -279,7 +279,7 @@
     let copyBtn = document.querySelectorAll(".copiar");
 
     copyBtn.forEach((copiar) => {
-      let linha = copiar.closest(".linha"); // ✅ linha correta do botão
+      let linha = copiar.closest(".linha");
 
       linha.addEventListener("mouseenter", () => {
         copiar.style.opacity = "1";
@@ -304,3 +304,4 @@
     });
   }
 })();
+
