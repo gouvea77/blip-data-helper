@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      2.6
+// @version      2.7
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -24,19 +24,23 @@
     return {dia, mes, ano}
   }
 
+  function formatarData({dia, mes, ano}){
+    return `${dia}/${mes}/${ano}`
+  }
+
 
   function limparLocalStorage() {
     let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
     const hoje = getData()
     const alunosDia = alunos.filter((aluno) => {
-      return aluno.data === hoje.dia + "/" + hoje.mes + "/" + hoje.ano;
+      return aluno.data === formatarData(hoje);
     });
 
     alunos = alunosDia;
     localStorage.setItem("alunos", JSON.stringify(alunos));
 
     const atendimentosDia = atendimentos.filter((atendimento)=>{
-      return atendimento.data === hoje.dia + "/" + hoje.mes + "/" + hoje.ano;
+      return atendimento.data === formatarData(hoje);
     })
 
     atendimentos = atendimentosDia;
@@ -65,7 +69,7 @@
           ) {
             atendimentos.push({
               idTicket,
-              data: hoje.dia + "/" + hoje.mes + "/" + hoje.ano,
+              data: formatarData(hoje),
             });
              textoAtendimentos.innerText =
       "Atendimentos Hoje: " + atendimentos.length;
@@ -116,14 +120,14 @@
     if (
      telefoneAluno && !alunos.some(
         (aluno) =>
-          aluno.telefone === telefoneAluno && aluno.data === dia + "/" + mes + "/" + ano
+          aluno.telefone === telefoneAluno && aluno.data === formatarData(hoje)
       )
     ) {
       alunos.push({
         nome: nomeAluno,
         cpf: cpfAluno,
         id: idAluno,
-        data: dia + "/" + mes + "/" + ano,
+        data: formatarData(hoje),
         telefone: telefoneAluno,
       });
       localStorage.setItem("alunos", JSON.stringify(alunos));
