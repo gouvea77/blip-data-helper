@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      2.7
+// @version      2.8
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -60,7 +60,7 @@
           let idTicket = document.querySelector(
             "#ticket-sequential-id"
           ).innerText;
-          addAlunos(hoje.dia, hoje.mes, hoje.ano);
+          addAlunos(hoje);
           if (
             idTicket != "" &&
             !atendimentos.some(
@@ -90,7 +90,7 @@
 
   let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
 
-  function addAlunos(dia, mes, ano) {
+  function addAlunos(hoje) {
     alunos = JSON.parse(localStorage.getItem("alunos")) || [];
     const nomeAluno = document
       .querySelectorAll(".profile-info-item")[0]
@@ -133,10 +133,10 @@
       localStorage.setItem("alunos", JSON.stringify(alunos));
     }
     console.log("local storage definido");
-    criarDiv(dia, mes, ano);
+    criarDiv(hoje);
   }
 
-  function criarDiv(dia, mes, ano) {
+  function criarDiv(hoje) {
     let textoAtendimentos = document.querySelector(".header-content");
 
     const alunosArray = JSON.parse(localStorage.getItem("alunos")) || [];
