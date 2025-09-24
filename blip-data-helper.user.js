@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      2.5
+// @version      2.6
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -136,10 +136,7 @@
     let textoAtendimentos = document.querySelector(".header-content");
 
     const alunosArray = JSON.parse(localStorage.getItem("alunos")) || [];
-    const alunosFiltrados =
-      dia && mes
-        ? alunosArray.filter((aluno) => aluno.data === dia + "/" + mes + "/" + ano)
-        : alunosArray;
+    
     let divBlip = document.querySelector(".header-chat-list");
     if (!divBlip) return;
 
@@ -154,7 +151,7 @@
 
     let tabela = "";
 
-    if (alunosFiltrados.length === 0) {
+    if (alunosArray.length === 0) {
       tabela = "Nenhum atendimento realizado hoje";
     } else {
       tabela = `
@@ -261,7 +258,7 @@
   </div>
 
       <div class="corpo">
-        ${alunosFiltrados
+        ${alunosArray
           .map(
             (aluno) => `
       <div class="linha">
