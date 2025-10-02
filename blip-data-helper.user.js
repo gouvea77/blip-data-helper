@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      2.9
+// @version      3.0
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -160,6 +160,10 @@
     } else {
       tabela = `
     <style>
+
+ .header-chat-list {
+     overflow-y: scroll;
+ }
  .tabela {
       width: 350px;
       border-radius: 8px;
@@ -315,6 +319,7 @@
     });
   }
 })();
+
 
 
 
