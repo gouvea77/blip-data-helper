@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      3.1
+// @version      3.2
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -313,8 +313,12 @@
       copiar.addEventListener("click", (e) => {
         e.target.innerText = "COPIADO!";
         setTimeout(() => (e.target.innerText = "COPIAR"), 1000);
+        
+        let textos = linha.innerText.replace("COPIADO!", "").trim().split("\n");
+        let textoFinal = textos.join("\t");
 
-        navigator.clipboard.writeText(linha.innerText.replace("COPIADO!", ""));
+
+        navigator.clipboard.writeText(textoFinal);
       });
     });
   }
