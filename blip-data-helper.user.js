@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Blip - Cria Tabela de Atendimentos
 // @namespace    http://gouvea77.com
-// @version      3.3
+// @version      3.4
 // @description  Script para auxiliar no Blip
 // @author       Gabriel Gouvea
 // @match        https://medgrupocentral.desk.blip.ai/*
@@ -99,8 +99,14 @@
 
     const textoCpf =
       document.querySelectorAll(".profile-info-item")[3].innerText;
-    const textoId =
-      document.querySelectorAll(".profile-info-item")[7].innerText;
+    let textoId =
+      document.querySelectorAll(".profile-info-item")[7]
+      if(textoId) {
+        textoId = textoId.innerText;
+      }else {
+        textoId = "-"
+      }
+      
     const telefoneTexto =
       document.querySelectorAll(".profile-info-item")[2].innerText;
     const telefoneAluno = telefoneTexto.replace(/\D/g, "");
@@ -323,13 +329,3 @@
     });
   }
 })();
-
-
-
-
-
-
-
-
-
-
